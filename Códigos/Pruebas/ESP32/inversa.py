@@ -6,7 +6,7 @@ l2 = 13
 
 # Definir las coordenadas del punto final
 x = 0
-y = 22
+y = 24
 
 # Calcular el valor de theta 2
 theta2 = math.acos((x**2 + y**2 - l1**2 - l2**2) / (2*l1*l2))
