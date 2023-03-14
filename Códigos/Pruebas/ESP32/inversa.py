@@ -17,4 +17,3 @@ theta1 = math.atan2(y, x) - math.atan2(l2*math.sin(theta2), l1+l2*math.cos(theta
 # Imprimir los valores de theta 1 y theta 2 en grados y radianes
 print("Theta 1: ", math.degrees(theta1), "grados")
 print("Theta 2: ", math.degrees(theta2), "grados")
-
