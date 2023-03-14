@@ -6,11 +6,11 @@ import math #Operaciones matem'aticas(tangente inversa)
 import board #Importar la placa de desarrollo
 import analogio #Lectura de valores analogos
 
-# Configurar el pin 26 como entrada analógica
+# Configurar el pin 26,27 como entrada analógica
 pin_adc1 = analogio.AnalogIn(board.GP26)
 pin_adc2 = analogio.AnalogIn(board.GP27)
 
-# create a PWMOut object on Pin A2.
+# create a PWMOut object on Pin GP2,GP3.
 pwm1 = pwmio.PWMOut(board.GP2, duty_cycle=2 ** 15, frequency=50)
 pwm2 = pwmio.PWMOut(board.GP3, duty_cycle=2 ** 15, frequency=50)
 
@@ -26,7 +26,7 @@ y = [14, 8, 14, 14]
 
 # Definir las longitudes de las dos articulaciones del robot
 l1 = 11
-l2 = 12
+l2 = 13
 
 #Declaracion de patas para definir marcha
 
@@ -43,11 +43,11 @@ while True:
         
         #Angulos corregidos
         theta1c = math.degrees(theta1)
-        theta2c = math.degrees(theta2)
+        theta2c = 140 - math.degrees(theta2)
         
         #Enviar a angulo corregido
         my_servo1.angle = theta1c
-        my_servo2.angle = 140 - theta2c
+        my_servo2.angle = theta2c
         
         time.sleep(1)
         
@@ -61,9 +61,9 @@ while True:
 
         # Imprimir los valores de theta1 y theta2
         #print("Voltajes: ", voltaje1, voltaje2, "Valores Teóricos Corregidos: ", theta1c, theta2c, "Valores Experimentales: ", grados1, grados2)
-        print("Grados M1:",  "Voltajes: ", voltaje1, voltaje2, "Valores Teóricos Corregidos: ", theta1c, theta2c, "Valores Experimentales: ", grados1-5, grados2-5)
+        print("Voltajes: ", voltaje1, voltaje2, "Valores Teóricos Corregidos: ", theta1c, theta2c, "Valores Experimentales: ", grados1-5, grados2-5)
 
-        #print(str(voltaje1) + "," + str(voltaje2) + "," + str(theta1c) + "," + str(theta2c) + "," + str(grados1) + "," + str(grados2))
+        #print(str(voltaje1) + "," + str(voltaje2) + "," + str(theta1c) + "," + str(theta2c) + "," + str(grados1-5) + "," + str(grados2-5))
          
             
             
