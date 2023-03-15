@@ -9,8 +9,8 @@ pwm1 = pwmio.PWMOut(board.GP2, duty_cycle=2 ** 15, frequency=50)
 pwm2 = pwmio.PWMOut(board.GP3, duty_cycle=2 ** 15, frequency=50)
 
 # Create a servo object, my_servo.
-my_servo1 = servo.Servo(pwm1)
-my_servo2 = servo.Servo(pwm2)
+my_servo1 = servo.Servo(pwm1, min_pulse=500, max_pulse=2500)
+my_servo2 = servo.Servo(pwm2, min_pulse=500, max_pulse=2500)
 
 
 while True:
@@ -25,7 +25,7 @@ while True:
     theta2 = math.acos((x**2 + y**2 - l1**2 - l2**2) / (2*l1*l2))
 
     # Calcular el valor de theta 1
-    theta1 = math.atan2(y, x) - math.atan2(l2*math.sin(theta2), l1+l2*math.cos(theta2)) 
+    theta1 = math.atan2(y, x) + math.atan2(l2*math.sin(theta2), l1+l2*math.cos(theta2)) 
     
     #Angulos corregidos
     theta1c = math.degrees(theta1)
