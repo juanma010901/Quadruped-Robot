@@ -9,8 +9,8 @@ pwm1 = pwmio.PWMOut(board.GP2, duty_cycle=2 ** 15, frequency=50)
 pwm2 = pwmio.PWMOut(board.GP3, duty_cycle=2 ** 15, frequency=50)
 
 # Create a servo object, my_servo.
-my_servo1 = servo.Servo(pwm1)
-my_servo2 = servo.Servo(pwm2)
+my_servo1 = servo.Servo(pwm1, min_pulse=500, max_pulse=2500)
+my_servo2 = servo.Servo(pwm2, min_pulse=500, max_pulse=2500)
 
 
 while True:
