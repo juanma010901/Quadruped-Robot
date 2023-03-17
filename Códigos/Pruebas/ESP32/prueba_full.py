@@ -42,14 +42,15 @@ l2 = 13
 
 #Definición de los puntos a alcanzar para cada lado del robot
 def puntosIzquierda():
-    x = [4, 8, 0]
-    y = [8, 15, 15]
+    x = [2, 4, -2]
+    y = [12, 14, 14]
     #y = [8, 18, 18]
     return ([x, y])
 
 def puntosDerecha():
-    x = [-4, -8, 0]
-    y = [8, 15, 15]
+    #x = [-4, -8, 0]
+    x = [-2, -4, 2]
+    y = [12, 14, 14]
     #y = [8, 18, 18]
     return ([x, y])
 
@@ -100,6 +101,7 @@ def calcularAngulosP1():
 # Mover Pata 2 (izquierda)
 def calcularAngulosP2():
     #Definir los vectores x e y
+    puntos = puntosIzquierda()
     x = puntos[0]
     y = puntos[1]
 
@@ -128,7 +130,7 @@ def calcularAngulosP4():
     x = puntos[0]
     y = puntos[1]
 
-    angulos4 = []
+    angulosP4 = []
 
     for i in range(len(x)):
         angulosP4.append(inversaDerecha(x[i],y[i]))
@@ -186,8 +188,8 @@ def moverP1(puntosP1):
             
 def moverP2(puntosP2):
     for i in range(len(puntosP2)):
-            servo_3.angle = puntosP1[i][0]
-            servo_4.angle = puntosP1[i][1]
+            servo_3.angle = puntosP2[i][0]
+            servo_4.angle = puntosP2[i][1]
             time.sleep(1)
             
             #Medir Valores de ADC's
@@ -220,24 +222,29 @@ def moverP4(puntosP4):
             adc = leerVoltaje(4)
             print("Pata4: ", adc[0], adc[1], "V.T.C: ", puntosP4[i][0], puntosP4[i][1], "V.E: ", adc[2], adc[3])
 
+#Definición del Home (correr postura inicial)
+def home():
+    puntosIzquierda = [-1, 14]
+    puntosDerecha = [1, 14]
+    servo_1.angle, servo_2.angle = inversaIzquierda(puntosIzquierda[0], puntosIzquierda[1])
+    servo_3.angle, servo_4.angle = inversaIzquierda(puntosIzquierda[0], puntosIzquierda[1])
+    servo_5.angle, servo_6.angle = inversaDerecha(puntosDerecha[0], puntosDerecha[1])
+    servo_7.angle, servo_8.angle = inversaDerecha(puntosDerecha[0], puntosDerecha[1])
             
 #Marcha sencilla en la que se mueve un paso a la vez        
 def marchaPasoPaso():
-    moverP1(calcularAngulosP1())          
+    moverP1(calcularAngulosP1())
+    time.sleep(0.1)
     moverP3(calcularAngulosP3())
-    #moverP4(calcularAngulosP4())
-    #moverP2(calcularAngulosP2())
+    time.sleep(0.1)
+    moverP4(calcularAngulosP4())
+    time.sleep(0.1)
+    moverP2(calcularAngulosP2())
+    time.sleep(0.1)
 
+#Llamar al home
+home()
 
 while True:
-        
-        #Llamar a la marcha que va a hacer el robot
-        marchaPasoPaso()
-        
-        
-        
-        
-        
-    
-    
-    
+    #Llamar a la marcha que va a hacer el robot
+    marchaPasoPaso()
