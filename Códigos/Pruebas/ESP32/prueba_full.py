@@ -224,8 +224,8 @@ def moverP4(puntosP4):
 
 #Definición del Home (correr postura inicial)
 def home():
-    puntosIzquierda = [-1, 14]
-    puntosDerecha = [1, 14]
+    puntosIzquierda = [-2, 14]
+    puntosDerecha = [2, 14]
     servo_1.angle, servo_2.angle = inversaIzquierda(puntosIzquierda[0], puntosIzquierda[1])
     servo_3.angle, servo_4.angle = inversaIzquierda(puntosIzquierda[0], puntosIzquierda[1])
     servo_5.angle, servo_6.angle = inversaDerecha(puntosDerecha[0], puntosDerecha[1])
