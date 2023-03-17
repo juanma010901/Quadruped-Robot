@@ -19,14 +19,22 @@ pca.frequency = 50
 # Configuración del Servomotor
 servo_1 = servo.Servo(pca.channels[0], min_pulse=500, max_pulse=2500)
 servo_2 = servo.Servo(pca.channels[2], min_pulse=500, max_pulse=2500)
+servo_3 = servo.Servo(pca.channels[4], min_pulse=500, max_pulse=2500)
+servo_4 = servo.Servo(pca.channels[6], min_pulse=500, max_pulse=2500)
 servo_5 = servo.Servo(pca.channels[8], min_pulse=500, max_pulse=2500)
 servo_6 = servo.Servo(pca.channels[10], min_pulse=500, max_pulse=2500)
+servo_7 = servo.Servo(pca.channels[12], min_pulse=500, max_pulse=2500)
+servo_8 = servo.Servo(pca.channels[14], min_pulse=500, max_pulse=2500)
 
 # Configurar el pin 0,4 como entrada analógica
 pin_adc1 = analogio.AnalogIn(board.D34)
 pin_adc2 = analogio.AnalogIn(board.D35)
-pin_adc5 = analogio.AnalogIn(board.D32)
-pin_adc6 = analogio.AnalogIn(board.D33)
+pin_adc3 = analogio.AnalogIn(board.D32)
+pin_adc4 = analogio.AnalogIn(board.D33)
+pin_adc5 = analogio.AnalogIn(board.D25)
+pin_adc6 = analogio.AnalogIn(board.D26)
+pin_adc7 = analogio.AnalogIn(board.D27)
+pin_adc8 = analogio.AnalogIn(board.D14)
 
 # Definir las longitudes de las dos articulaciones del robot
 l1 = 11
@@ -35,14 +43,14 @@ l2 = 13
 #Definición de los puntos a alcanzar para cada lado del robot
 def puntosIzquierda():
     x = [4, 8, 0]
-    #y = [15, 8, 15, 15]
-    y = [8, 18, 18]
+    y = [8, 15, 15]
+    #y = [8, 18, 18]
     return ([x, y])
 
 def puntosDerecha():
     x = [-4, -8, 0]
-    #y = [15, 8, 15, 15]
-    y = [8, 18, 18]
+    y = [8, 15, 15]
+    #y = [8, 18, 18]
     return ([x, y])
 
 # Funcion inversa izquierda
@@ -176,6 +184,18 @@ def moverP1(puntosP1):
             adc = leerVoltaje(1)
             print("Pata1: ", adc[0], adc[1], "V.T.C: ", puntosP1[i][0], puntosP1[i][1], "V.E: ", adc[2]-5, adc[3]+5)
             
+def moverP2(puntosP2):
+    for i in range(len(puntosP2)):
+            servo_3.angle = puntosP1[i][0]
+            servo_4.angle = puntosP1[i][1]
+            time.sleep(1)
+            
+            #Medir Valores de ADC's
+            #(VTC: Valores Teóricos Corregidos)
+            #(VE: Valores Experimentales)
+            adc = leerVoltaje(2)
+            print("Pata2: ", adc[0], adc[1], "V.T.C: ", puntosP2[i][0], puntosP2[i][1], "V.E: ", adc[2], adc[3])
+            
 def moverP3(puntosP3):
     for i in range(len(puntosP3)):
             servo_5.angle = puntosP3[i][0]
@@ -187,6 +207,19 @@ def moverP3(puntosP3):
             #(VE: Valores Experimentales)
             adc = leerVoltaje(3)
             print("Pata3: ", adc[0], adc[1], "V.T.C: ", puntosP3[i][0], puntosP3[i][1], "V.E: ", adc[2], adc[3])
+            
+def moverP4(puntosP4):
+    for i in range(len(puntosP4)):
+            servo_7.angle = puntosP4[i][0]
+            servo_8.angle = puntosP4[i][1]
+            time.sleep(1)
+            
+            #Medir Valores de ADC's
+            #(VTC: Valores Teóricos Corregidos)
+            #(VE: Valores Experimentales)
+            adc = leerVoltaje(4)
+            print("Pata4: ", adc[0], adc[1], "V.T.C: ", puntosP4[i][0], puntosP4[i][1], "V.E: ", adc[2], adc[3])
+
             
 #Marcha sencilla en la que se mueve un paso a la vez        
 def marchaPasoPaso():
