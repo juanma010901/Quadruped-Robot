@@ -1,11 +1,76 @@
-from adafruit_motor import servo
 import adafruit_pca9685
+import adafruit_minimqtt.adafruit_minimqtt as MQTT
 import analogio
 import board
 import busio
 import digitalio
 import math
+import secrets
+import socketpool
+import ssl
 import time
+import wifi
+from adafruit_motor import servo
+
+##################################
+#MQTT
+broker = 'io.adafruit.com'
+port = 1883
+ssid = secrets.secrets["ssid"]
+password = secrets.secrets["password"]
+aio_username = secrets.secrets["aio_username"]
+aio_key = secrets.secrets["aio_key"]
+
+# Configura el LED
+led = digitalio.DigitalInOut(board.D32)
+led.direction = digitalio.Direction.OUTPUT
+
+wifi.radio.connect(ssid, password)
+print("Connected to %s!" % ssid)
+
+mqtt_led = aio_username + '/feeds/Led'
+mqtt_home = aio_username + '/feeds/Home'
+mqtt_motor1 = aio_username + '/feeds/Motor1'
+
+pool = socketpool.SocketPool(wifi.radio)
+
+mqtt = MQTT.MQTT(
+    broker=broker,
+    port=port,
+    username=aio_username,
+    password=aio_key,
+    socket_pool=pool,
+    ssl_context=ssl.create_default_context(),
+)
+
+switch_marcha = False
+switch_home = False
+
+def message(client, topic, message):
+    # Method called when a client's subscribed feed has a new value.
+    print(client, topic, message)
+    global switch_marcha
+    global switch_home
+    if(topic == mqtt_led and message == "ON"):
+        switch_marcha = True
+        led.value = True
+    elif(topic == mqtt_led and message == "OFF"):
+        led.value = False
+        switch_marcha = False
+    
+    if(topic == mqtt_home and message == "1"):
+        print(message)
+        switch_home = True
+    #print(switch_marcha)    
+
+#Callbacks
+mqtt.on_message = message
+
+mqtt.connect()
+mqtt.subscribe(mqtt_led)
+mqtt.subscribe(mqtt_home)
+##################################
+
 
 # Definición de pines I2C
 SDA = board.D21
@@ -29,7 +94,7 @@ servo_8 = servo.Servo(pca.channels[14], min_pulse=500, max_pulse=2500)
 # Configurar el pin 0,4 como entrada analógica
 pin_adc1 = analogio.AnalogIn(board.D34)
 pin_adc2 = analogio.AnalogIn(board.D35)
-pin_adc3 = analogio.AnalogIn(board.D32)
+#pin_adc3 = analogio.AnalogIn(board.D32)
 pin_adc4 = analogio.AnalogIn(board.D33)
 pin_adc5 = analogio.AnalogIn(board.D25)
 pin_adc6 = analogio.AnalogIn(board.D26)
@@ -149,16 +214,16 @@ def leerVoltaje(pata):
     
     elif pata == 2:
         #Leer el valor del voltaje en el pin (en milivoltios)
-        voltajeUp = pin_adc3.value * 3.3 / 65535.0
-        voltajeDown = pin_adc4.value * 3.3 / 65535.0
+        voltajeUp = pin_adc1.value * 3.3 / 65535.0
+        voltajeDown = pin_adc2.value * 3.3 / 65535.0
         #Linezalización del voltaje para conocer los grados, según ecuación hallada
         gradosUp = (((voltajeUp-0.437999999)/0.0144166667))
         gradosDown = (((voltajeDown-0.437999999)/0.0144166667))
         
     elif pata == 3:
         # Leer el valor del voltaje en el pin (en milivoltios)
-        voltajeUp = pin_adc5.value * 3.3 / 65535.0
-        voltajeDown = pin_adc6.value * 3.3 / 65535.0
+        voltajeUp = pin_adc1.value * 3.3 / 65535.0
+        voltajeDown = pin_adc2.value * 3.3 / 65535.0
         #Linezalización del voltaje para conocer los grados, según ecuación hallada
         gradosUp = (((voltajeUp-0.437999999)/0.0144166667))
         gradosDown = (((voltajeDown-0.437999999)/0.0144166667))        
@@ -224,23 +289,40 @@ def moverP4(puntosP4):
 
 #Definición del Home (correr postura inicial)
 def home():
+    global switch_home
     puntosIzquierda = [-2, 14]
     puntosDerecha = [2, 14]
     servo_1.angle, servo_2.angle = inversaIzquierda(puntosIzquierda[0], puntosIzquierda[1])
     servo_3.angle, servo_4.angle = inversaIzquierda(puntosIzquierda[0], puntosIzquierda[1])
     servo_5.angle, servo_6.angle = inversaDerecha(puntosDerecha[0], puntosDerecha[1])
     servo_7.angle, servo_8.angle = inversaDerecha(puntosDerecha[0], puntosDerecha[1])
+    #switch_home = False
             
 #Marcha sencilla en la que se mueve un paso a la vez        
 def marchaPasoPaso():
-    #moverP1(calcularAngulosP1())
-    #moverP3(calcularAngulosP3())
+    moverP1(calcularAngulosP1())
+    #time.sleep(0.1)
+    moverP3(calcularAngulosP3())
+    #time.sleep(0.1)
     moverP4(calcularAngulosP4())
-    #moverP2(calcularAngulosP2())
+    #time.sleep(0.1)
+    moverP2(calcularAngulosP2())
+    #time.sleep(0.1)
 
 #Llamar al home
-home()
+#home()
 
 while True:
     #Llamar a la marcha que va a hacer el robot
-    marchaPasoPaso()
+    #marchaPasoPaso()
+    mqtt.loop()
+    if switch_marcha:
+        marchaPasoPaso()
+    if switch_home:
+        home()
+    print(switch_home)
+    time.sleep(1)
+    
+    
+    
+    

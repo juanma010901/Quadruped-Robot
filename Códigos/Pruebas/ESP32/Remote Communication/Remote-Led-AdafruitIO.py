@@ -3,9 +3,13 @@ import socketpool
 import wifi
 import adafruit_minimqtt.adafruit_minimqtt as MQTT
 import board
-from digitalio import DigitalInOut, Direction
+import digitalio
 import time
 import secrets
+
+#led = digitalio.DigitalInOut(board.D0)
+#led.direction = digitalio.Direction.OUTPUT
+#led.value = True
 
 broker = 'io.adafruit.com'
 port = 1883
@@ -15,13 +19,15 @@ aio_username = secrets.secrets["aio_username"]
 aio_key = secrets.secrets["aio_key"]
 
 # Configura el LED
-led = DigitalInOut(board.D32)
-led.direction = Direction.OUTPUT
+led = digitalio.DigitalInOut(board.D32)
+led.direction = digitalio.Direction.OUTPUT
 
 wifi.radio.connect(ssid, password)
 print("Connected to %s!" % ssid)
 
-mqtt_topic = aio_username + '/feeds/Led'
+mqtt_led = aio_username + '/feeds/Led'
+mqtt_slider = aio_username + '/feeds/Slider'
+mqtt_motor1 = aio_username + '/feeds/Motor1'
 
 pool = socketpool.SocketPool(wifi.radio)
 
@@ -36,21 +42,26 @@ mqtt = MQTT.MQTT(
 
 def message(client, topic, message):
     # Method called when a client's subscribed feed has a new value.
-    #print(message)
-    if(message == "ON"):
+    print(client, topic, message)
+    if(topic == mqtt_led and message == "ON"):
         led.value = True
-    else:
+    elif(topic == mqtt_led and message == "OFF"):
         led.value = False
+    elif(topic == mqtt_slider):
+        print(message)
+        mqtt.publish(mqtt_motor1, message)
     #print(LED)    
 
 #Callbacks
 mqtt.on_message = message
 
 mqtt.connect()
-mqtt.subscribe(mqtt_topic)
-#mqtt.publish(mqtt_topic, "ON")
+mqtt.subscribe(mqtt_led)
+mqtt.subscribe(mqtt_slider)
+
 
 while True:
     mqtt.loop()
     time.sleep(1)
+    
 
