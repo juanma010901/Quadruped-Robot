@@ -58,9 +58,9 @@ def message(client, topic, message):
         led.value = False
         switch_marcha = False
     
-    if(topic == mqtt_home and message == "1"):
-        print(message)
-        switch_home = True
+    #if(topic == mqtt_home and message == "1"):
+        #print(message)
+        #switch_home = True
     #print(switch_marcha)    
 
 #Callbacks
@@ -68,7 +68,7 @@ mqtt.on_message = message
 
 mqtt.connect()
 mqtt.subscribe(mqtt_led)
-mqtt.subscribe(mqtt_home)
+#mqtt.subscribe(mqtt_home)
 ##################################
 
 
@@ -129,7 +129,7 @@ def inversaIzquierda(x, y):
     theta1 = math.atan2(y, x) + math.atan2(l2*math.sin(theta2), l1+l2*math.cos(theta2))
     
     #Angulos corregidos
-    theta1c = math.degrees(theta1)
+    theta1c = math.degrees(theta1) - 90
     theta2c = 140 - math.degrees(theta2)
 
     return([theta1c,theta2c])
@@ -296,21 +296,20 @@ def home():
     servo_3.angle, servo_4.angle = inversaIzquierda(puntosIzquierda[0], puntosIzquierda[1])
     servo_5.angle, servo_6.angle = inversaDerecha(puntosDerecha[0], puntosDerecha[1])
     servo_7.angle, servo_8.angle = inversaDerecha(puntosDerecha[0], puntosDerecha[1])
-    #switch_home = False
             
 #Marcha sencilla en la que se mueve un paso a la vez        
 def marchaPasoPaso():
     moverP1(calcularAngulosP1())
-    #time.sleep(0.1)
+    time.sleep(0.1)
     moverP3(calcularAngulosP3())
-    #time.sleep(0.1)
+    time.sleep(0.1)
     moverP4(calcularAngulosP4())
-    #time.sleep(0.1)
+    time.sleep(0.1)
     moverP2(calcularAngulosP2())
-    #time.sleep(0.1)
+    time.sleep(0.1)
 
 #Llamar al home
-#home()
+home()
 
 while True:
     #Llamar a la marcha que va a hacer el robot
@@ -318,10 +317,9 @@ while True:
     mqtt.loop()
     if switch_marcha:
         marchaPasoPaso()
-    if switch_home:
+    else
         home()
-    print(switch_home)
-    time.sleep(1)
+    #time.sleep(1)
     
     
     
