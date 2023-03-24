@@ -317,7 +317,7 @@ while True:
     mqtt.loop()
     if switch_marcha:
         marchaPasoPaso()
-    else
+    else:
         home()
     #time.sleep(1)
     
