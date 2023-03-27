@@ -27,6 +27,12 @@
   <a href="https://github.com/luisfbcudj94">
     <img src="https://avatars.githubusercontent.com/u/74807862?v=4" alt="Luis Pérez" width="100" />
   </a>
+  <br>
+  <p>David Rozo Osorio</p>
+  <a href="david.rozo31@eia.edu.co">
+    <img src="https://avatars.githubusercontent.com/u/88332307?v=4" alt="David Rozo" width="100" />
+  </a>
+  <br>
 </h3>
 
 Emoji
