@@ -121,17 +121,20 @@ l2 = 13
 
 #Definición de los puntos a alcanzar para cada lado del robot
 def puntosIzquierda():
-    x = [2, 4, -2]
-    y = [12, 14, 14]
-    #y = [8, 18, 18]
+    x = [2, 4, 0]
+    y = [13, 14, 14]
     return ([x, y])
 
 def puntosDerecha():
-    #x = [-4, -8, 0]
-    x = [-2, -4, 2]
-    y = [12, 14, 14]
-    #y = [8, 18, 18]
+    x = [2, 0, 4]
+    y = [13Second_econd-completeeeeccmeee-ees, 14, 14]
     return ([x, y])
+
+def puntosHome():
+    puntosIzquierda = [0, 14]
+    puntosDerecha = [4, 14]
+    return([puntosIzquierda, puntosDerecha])
+    
 
 #---------------------------------------------------------------------------------
 
@@ -265,7 +268,7 @@ def moverP1(puntosP1):
     for i in range(len(puntosP1)):
             servo_1.angle = puntosP1[i][0]
             servo_2.angle = puntosP1[i][1]
-            time.sleep(1)
+            time.sleep(0.7)
             
             #Medir Valores de ADC's
             #(VTC: Valores Teóricos Corregidos)
@@ -277,7 +280,7 @@ def moverP2(puntosP2):
     for i in range(len(puntosP2)):
             servo_3.angle = puntosP2[i][0]
             servo_4.angle = puntosP2[i][1]
-            time.sleep(1)
+            time.sleep(0.7)
             
             #Medir Valores de ADC's
             #(VTC: Valores Teóricos Corregidos)
@@ -289,7 +292,7 @@ def moverP3(puntosP3):
     for i in range(len(puntosP3)):
             servo_5.angle = puntosP3[i][0]
             servo_6.angle = puntosP3[i][1]
-            time.sleep(1)
+            time.sleep(0.7)
             
             #Medir Valores de ADC's
             #(VTC: Valores Teóricos Corregidos)
@@ -301,7 +304,7 @@ def moverP4(puntosP4):
     for i in range(len(puntosP4)):
             servo_7.angle = puntosP4[i][0]
             servo_8.angle = puntosP4[i][1]
-            time.sleep(1)
+            time.sleep(0.7)
             
             #Medir Valores de ADC's
             #(VTC: Valores Teóricos Corregidos)
@@ -349,13 +352,12 @@ def moverP2P4(puntosP2, puntosP4):
 #Definición del Home (correr postura inicial)
 def home():
     global switch_home
-    puntosIzquierda = [-2, 14]
-    puntosDerecha = [2, 14]
-    servo_3.angle, servo_4.angle = inversaIzquierda(puntosIzquierda[0], puntosIzquierda[1])
-    servo_5.angle, servo_6.angle = inversaDerecha(puntosDerecha[0], puntosDerecha[1])
-    time.sleep(0.2)
-    servo_1.angle, servo_2.angle = inversaIzquierda(puntosIzquierda[0], puntosIzquierda[1])
-    servo_7.angle, servo_8.angle = inversaDerecha(puntosDerecha[0], puntosDerecha[1])
+    home = puntosHome()
+    servo_3.angle, servo_4.angle = inversaIzquierda(home[0][0], home[0][1])
+    servo_5.angle, servo_6.angle = inversaDerecha(home[1][0], home[1][1])
+    time.sleep(0.1)
+    servo_1.angle, servo_2.angle = inversaIzquierda(home[0][0], home[0][1])
+    servo_7.angle, servo_8.angle = inversaDerecha(home[1][0], home[1][1])
             
 #---------------------------------------------------------------------------------        
             
