@@ -41,6 +41,7 @@ print("My IP address is", wifi.radio.ipv4_address)
 
 mqtt_MarchaSencilla = aio_username + '/feeds/MarchaSencilla'
 mqtt_MarchaDoble = aio_username + '/feeds/MarchaDoble'
+mqtt_agacharse = aio_username + '/feeds/Agacharse'
 mqtt_home = aio_username + '/feeds/Home'
 
 pool = socketpool.SocketPool(wifi.radio)
@@ -57,12 +58,14 @@ mqtt = MQTT.MQTT(
 
 switch_marchaSencilla = False
 switch_marchaDoble = False
+switch_agacharse = False
 
 def message(client, topic, message):
     # Method called when a client's subscribed feed has a new value.
     print(client, topic, message)
     global switch_marchaSencilla
     global switch_marchaDoble
+    global switch_agacharse
     if(topic == mqtt_MarchaSencilla and message == "ON"):
         switch_marchaDoble = False
         mqtt.publish(mqtt_MarchaDoble, "OFF")
@@ -79,6 +82,10 @@ def message(client, topic, message):
     elif(topic == mqtt_MarchaDoble and message == "OFF"):
         ledMD.value = False   
         switch_marchaDoble = False
+    if(topic == mqtt_agacharse and message == "ON" and switch_marchaSencilla == "OFF" and switch_marchaDoble == "OFF"):
+        switch_agacharse = True
+    elif(topic == mqtt_agacharse and message == "OFF"):
+        switch_agacharse = False
          
     
     
@@ -142,6 +149,11 @@ def puntosDerecha():
 def puntosHome():
     puntosIzquierda = [0, 14]
     puntosDerecha = [4, 14]
+    return([puntosIzquierda, puntosDerecha])
+
+def puntosAgachado():
+    puntosIzquierda = [0, 10]
+    puntosDerecha = [4, 10]
     return([puntosIzquierda, puntosDerecha])
     
 
@@ -264,8 +276,8 @@ def leerVoltaje(pata):
         
     elif pata == 3:
         # Leer el valor del voltaje en el pin (en milivoltios)
-        voltajeUp = pin_adc3.value * 3.3 / 65535.0
-        voltajeDown = pin_adc6.value * 3.3 / 65535.0
+        voltajeUp = pin_adc1.value * 3.3 / 65535.0
+        voltajeDown = pin_adc2.value * 3.3 / 65535.0
         #Linezalización del voltaje para conocer los grados, según ecuación hallada
         gradosUp = (((voltajeUp-0.437999999)/0.0144166667))
         gradosDown = (((voltajeDown-0.437999999)/0.0144166667))
@@ -387,6 +399,20 @@ def home():
     time.sleep(0.1)
     servo_1.angle, servo_2.angle = inversaIzquierda(home[0][0], home[0][1])
     servo_7.angle, servo_8.angle = inversaDerecha(home[1][0], home[1][1])
+    
+#---------------------------------------------------------------------------------
+    
+def agacharse():
+    global switch_agacharse
+    agacharse = puntosAgachado()
+    servo_1.angle, servo_2.angle = inversaIzquierda(agacharse[0][0], agacharse[0][1])
+    servo_3.angle, servo_4.angle = inversaIzquierda(agacharse[0][0], agacharse[0][1])
+    servo_5.angle, servo_6.angle = inversaDerecha(agacharse[1][0], agacharse[1][1])
+    servo_7.angle, servo_8.angle = inversaDerecha(agacharse[1][0], agacharse[1][1])
+    switch_agacharse = "OFF"
+    mqtt.publish(mqtt_agacharse, "OFF")
+    time.sleep(4)
+    home()   
             
 #---------------------------------------------------------------------------------        
             
@@ -423,6 +449,8 @@ while True:
         marchaSencilla()
     elif switch_marchaDoble:
         marchaDoble()
+    elif switch_agacharse:
+        agacharse()
     else:
         home()
     #time.sleep(1)
