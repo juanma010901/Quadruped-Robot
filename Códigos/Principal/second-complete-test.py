@@ -4,6 +4,7 @@ import analogio
 import board
 import busio
 import digitalio
+import json
 import math
 import secrets
 import socketpool
@@ -11,6 +12,7 @@ import ssl
 import time
 import wifi
 from adafruit_motor import servo
+import adafruit_requests as requests
 
 #---------------------------------------------------------------------------------
 
@@ -19,8 +21,13 @@ broker = 'io.adafruit.com'
 port = 1883
 ssid = secrets.secrets["ssid"]
 password = secrets.secrets["password"]
+#ssid = "Test"
+#password = "12345678"
 aio_username = secrets.secrets["aio_username"]
 aio_key = secrets.secrets["aio_key"]
+
+#REALTIME DATABASE
+firebase = "https://esp32-2952e-default-rtdb.firebaseio.com/"
 
 # Configura los LEDs
 ledMS = digitalio.DigitalInOut(board.D32)
@@ -30,12 +37,14 @@ ledMD.direction = digitalio.Direction.OUTPUT
 
 wifi.radio.connect(ssid, password)
 print("Connected to %s!" % ssid)
+print("My IP address is", wifi.radio.ipv4_address)
 
 mqtt_MarchaSencilla = aio_username + '/feeds/MarchaSencilla'
 mqtt_MarchaDoble = aio_username + '/feeds/MarchaDoble'
 mqtt_home = aio_username + '/feeds/Home'
 
 pool = socketpool.SocketPool(wifi.radio)
+https = requests.Session(pool, ssl.create_default_context())
 
 mqtt = MQTT.MQTT(
     broker=broker,
@@ -106,12 +115,12 @@ servo_8 = servo.Servo(pca.channels[14], min_pulse=500, max_pulse=2500)
 # Configurar el pin 0,4 como entrada analógica
 pin_adc1 = analogio.AnalogIn(board.D34)
 pin_adc2 = analogio.AnalogIn(board.D35)
-#pin_adc3 = analogio.AnalogIn(board.D32)
-#pin_adc4 = analogio.AnalogIn(board.D33)
-pin_adc5 = analogio.AnalogIn(board.D25)
+pin_adc3 = analogio.AnalogIn(board.D2)
+pin_adc4 = analogio.AnalogIn(board.D25)
+pin_adc5 = analogio.AnalogIn(board.D12)
 pin_adc6 = analogio.AnalogIn(board.D26)
 pin_adc7 = analogio.AnalogIn(board.D27)
-pin_adc8 = analogio.AnalogIn(board.D14)
+pin_adc8 = analogio.AnalogIn(board.D13)
 
 # Definir las longitudes de las dos articulaciones del robot
 l1 = 11
@@ -127,7 +136,7 @@ def puntosIzquierda():
 
 def puntosDerecha():
     x = [2, 0, 4]
-    y = [13Second_econd-completeeeeccmeee-ees, 14, 14]
+    y = [13, 14, 14]
     return ([x, y])
 
 def puntosHome():
@@ -234,6 +243,11 @@ def leerVoltaje(pata):
         #Linezalización del voltaje para conocer los grados, según ecuación hallada
         gradosUp = (((voltajeUp-0.437999999)/0.0144166667))
         gradosDown = (((voltajeDown-0.437999999)/0.0144166667))
+        
+        #print("Fetching text from %s" % firebase+"/Potenciometros.json")
+        datos = {"P1U": gradosUp, "P1D": gradosDown}
+        response = https.put(firebase+"/Potenciometros.json", json=datos)
+        response.close()
     
     elif pata == 2:
         #Leer el valor del voltaje en el pin (en milivoltios)
@@ -243,13 +257,23 @@ def leerVoltaje(pata):
         gradosUp = (((voltajeUp-0.437999999)/0.0144166667))
         gradosDown = (((voltajeDown-0.437999999)/0.0144166667))
         
+        #print("Fetching text from %s" % firebase+"/Potenciometros.json")
+        datos = {"P2U": gradosUp, "P2D": gradosDown}
+        response = https.put(firebase+"/Potenciometros.json", json=datos)
+        response.close()
+        
     elif pata == 3:
         # Leer el valor del voltaje en el pin (en milivoltios)
-        voltajeUp = pin_adc1.value * 3.3 / 65535.0
-        voltajeDown = pin_adc2.value * 3.3 / 65535.0
+        voltajeUp = pin_adc3.value * 3.3 / 65535.0
+        voltajeDown = pin_adc6.value * 3.3 / 65535.0
         #Linezalización del voltaje para conocer los grados, según ecuación hallada
         gradosUp = (((voltajeUp-0.437999999)/0.0144166667))
-        gradosDown = (((voltajeDown-0.437999999)/0.0144166667))        
+        gradosDown = (((voltajeDown-0.437999999)/0.0144166667))
+        
+        #print("Fetching text from %s" % firebase+"/Potenciometros.json")
+        datos = {"P3U": gradosUp, "P3D": gradosDown}
+        response = https.put(firebase+"/Potenciometros.json", json=datos)
+        response.close()
         
     elif pata == 4:
         # Leer el valor del voltaje en el pin (en milivoltios)
@@ -258,6 +282,11 @@ def leerVoltaje(pata):
         #Linezalización del voltaje para conocer los grados, según ecuación hallada
         gradosUp = (((voltajeUp-0.437999999)/0.0144166667))
         gradosDown = (((voltajeDown-0.437999999)/0.0144166667))
+        
+        #print("Fetching text from %s" % firebase+"/Potenciometros.json")
+        datos = {"P4U": gradosUp, "P4D": gradosDown}
+        response = https.put(firebase+"/Potenciometros.json", json=datos)
+        response.close()
 
     return([voltajeUp, voltajeDown, gradosUp, gradosDown])
 
