@@ -1,0 +1,24 @@
+import board
+import busio
+import json
+
+uart = busio.UART(board.TX, board.RX, baudrate=9600)
+
+while True:
+    data = uart.read(32)  # read up to 32 bytes
+    # print(data)  # this is a bytearray type
+
+    if data is not None:
+        # convert bytearray to string
+        data_string = ''.join([chr(b) for b in data])
+        #print(data_string, end="")
+        
+        # String en formato JSON
+        #json_string = '"' + data_string + '"'
+
+        # Carga el string JSON en un objeto Python
+        json_obj = json.loads(data_string)
+
+        # Imprime el objeto JSON
+        print(json_obj, end="")
+        
