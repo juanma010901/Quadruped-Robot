@@ -19,10 +19,12 @@ import adafruit_requests as requests
 #MQTT
 broker = 'io.adafruit.com'
 port = 1883
-ssid = "Redmi"
-password = "987654321"
+#ssid = "Redmi"
+#password = "987654321"
 #ssid = "Test"
 #password = "12345678"
+ssid = secrets.secrets["ssid"]
+password = secrets.secrets["password"]
 aio_username = secrets.secrets["aio_username"]
 aio_key = secrets.secrets["aio_key"]
 
@@ -130,19 +132,29 @@ l2 = 13
 #---------------------------------------------------------------------------------
 
 #Definición de los puntos a alcanzar para cada lado del robot
+#def puntosIzquierda():
+    #x = [1, 3, -1]
+    #y = [13, 14, 14]
+    #return ([x, y])
+
+#def puntosDerecha():
+    #x = [-1, -3, 1]
+    #y = [13, 14, 14]
+    #return ([x, y])
+
 def puntosIzquierda():
     x = [2, 4, 0]
     y = [13, 14, 14]
     return ([x, y])
 
 def puntosDerecha():
-    x = [2, 0, 4]
+    x = [0, -2, 2]
     y = [13, 14, 14]
     return ([x, y])
 
 def puntosHome():
     puntosIzquierda = [0, 14]
-    puntosDerecha = [4, 14]
+    puntosDerecha = [2, 14]
     return([puntosIzquierda, puntosDerecha])
     
 
@@ -298,7 +310,7 @@ def moverP1(puntosP1):
     for i in range(len(puntosP1)):
             servo_1.angle = puntosP1[i][0]
             servo_2.angle = puntosP1[i][1]
-            time.sleep(0.5)
+            time.sleep(0.6)
             
             #Medir Valores de ADC's
             #(VTC: Valores Teóricos Corregidos)
@@ -310,7 +322,7 @@ def moverP2(puntosP2):
     for i in range(len(puntosP2)):
             servo_3.angle = puntosP2[i][0]
             servo_4.angle = puntosP2[i][1]
-            time.sleep(0.5)
+            time.sleep(0.6)
             
             #Medir Valores de ADC's
             #(VTC: Valores Teóricos Corregidos)
@@ -322,7 +334,7 @@ def moverP3(puntosP3):
     for i in range(len(puntosP3)):
             servo_5.angle = puntosP3[i][0]
             servo_6.angle = puntosP3[i][1]
-            time.sleep(0.5)
+            time.sleep(0.6)
             
             #Medir Valores de ADC's
             #(VTC: Valores Teóricos Corregidos)
@@ -334,7 +346,7 @@ def moverP4(puntosP4):
     for i in range(len(puntosP4)):
             servo_7.angle = puntosP4[i][0]
             servo_8.angle = puntosP4[i][1]
-            time.sleep(0.5)
+            time.sleep(0.6)
             
             #Medir Valores de ADC's
             #(VTC: Valores Teóricos Corregidos)
@@ -350,7 +362,7 @@ def moverP1P3(puntosP1, puntosP3):
             servo_2.angle = puntosP1[i][1]
             servo_5.angle = puntosP3[i][0]
             servo_6.angle = puntosP3[i][1]
-            time.sleep(0.3)
+            time.sleep(0.6)
             
             #Medir Valores de ADC's
             #(VTC: Valores Teóricos Corregidos)
@@ -366,7 +378,7 @@ def moverP2P4(puntosP2, puntosP4):
             servo_4.angle = puntosP2[i][1]
             servo_7.angle = puntosP4[i][0]
             servo_8.angle = puntosP4[i][1]
-            time.sleep(0.3)
+            time.sleep(0.6)
             
             #Medir Valores de ADC's
             #(VTC: Valores Teóricos Corregidos)
@@ -383,11 +395,11 @@ def moverP2P4(puntosP2, puntosP4):
 def home():
     global switch_home
     home = puntosHome()
+    servo_1.angle, servo_2.angle = inversaIzquierda(home[0][0], home[0][1])
     servo_3.angle, servo_4.angle = inversaIzquierda(home[0][0], home[0][1])
     servo_5.angle, servo_6.angle = inversaDerecha(home[1][0], home[1][1])
-    time.sleep(0.1)
-    servo_1.angle, servo_2.angle = inversaIzquierda(home[0][0], home[0][1])
     servo_7.angle, servo_8.angle = inversaDerecha(home[1][0], home[1][1])
+    #time.sleep(0.1)
             
 #---------------------------------------------------------------------------------        
             
@@ -417,22 +429,22 @@ def marchaDoble():
 home()
 
 while True:
-    print("Fetching text from %s" % azure)
-    response = https.get(azure)
-    print(response.json())
-    start = response.json()["start"]
-    TrackId = response.json()["trackId"]
-    print(response.json())
-    response.close()
+    #print("Fetching text from %s" % azure)
+    #response = https.get(azure)
+    #print(response.json())
+    #start = response.json()["start"]
+    #TrackId = response.json()["trackId"]
+    #print(response.json())
+    #response.close()
     #time.sleep(1)
 
     #Llamar a la marcha que va a hacer el robot
-    #mqtt.loop()
-    if switch_marchaSencilla or TrackId == 1:
+    mqtt.loop()
+    if switch_marchaSencilla: #or TrackId == 1:
         marchaSencilla()
-    elif switch_marchaDoble or TrackId == 2:
+    elif switch_marchaDoble: #or TrackId == 2:
         marchaDoble()
-    #else:
-        #home()
+    else:
+        home()
     #time.sleep(1)
     

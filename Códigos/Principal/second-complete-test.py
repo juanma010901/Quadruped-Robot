@@ -82,8 +82,9 @@ def message(client, topic, message):
     elif(topic == mqtt_MarchaDoble and message == "OFF"):
         ledMD.value = False   
         switch_marchaDoble = False
-    if(topic == mqtt_agacharse and message == "ON" and switch_marchaSencilla == "OFF" and switch_marchaDoble == "OFF"):
+    if(topic == mqtt_agacharse and message == "ON"):
         switch_agacharse = True
+        print("yes")
     elif(topic == mqtt_agacharse and message == "OFF"):
         switch_agacharse = False
          
@@ -96,6 +97,7 @@ mqtt.on_message = message
 mqtt.connect()
 mqtt.subscribe(mqtt_MarchaSencilla)
 mqtt.subscribe(mqtt_MarchaDoble)
+mqtt.subscribe(mqtt_agacharse)
 #mqtt.subscribe(mqtt_home)
 
 #---------------------------------------------------------------------------------
@@ -153,7 +155,7 @@ def puntosHome():
 
 def puntosAgachado():
     puntosIzquierda = [0, 10]
-    puntosDerecha = [4, 10]
+    puntosDerecha = [0, 10]
     return([puntosIzquierda, puntosDerecha])
     
 
