@@ -36,31 +36,15 @@ https = requests.Session(pool, ssl.create_default_context())
 
 #---------------------------------------------------------------------------------
 
-#Puntos
-# def puntosP1():
-#     x = [json[0]["p1X"], json[1]["p1X"], json[2]["p1X"]]
-#     y = [json[0]["p1Y"], json[1]["p1Y"], json[2]["p1Y"]]
-#     return ([x, y])
-# 
-# def puntosP2():
-#     x = [json[0]["p2X"], json[1]["p2X"], json[2]["p2X"]]
-#     y = [json[0]["p2Y"], json[1]["p2Y"], json[2]["p2Y"]]
-#     return ([x, y])
-# 
-# def puntosP3():
-#     x = [json[0]["p3X"], json[1]["p3X"], json[2]["p3X"]]
-#     y = [json[0]["p3Y"], json[1]["p3Y"], json[2]["p3Y"]]
-#     return ([x, y])
-# 
-# def puntosP4():
-#     x = [json[0]["p4X"], json[1]["p4X"], json[2]["p4X"]]
-#     y = [json[0]["p4Y"], json[1]["p4Y"], json[2]["p4Y"]]
-#     return ([x, y])
-
-# def puntosHome():
-#     puntosIzquierda = [json[0]["p1X"], json[0]["p1Y"]]
-#     puntosDerecha = [json[0]["p3X"], json[0]["p3Y"]]
-#     return([puntosIzquierda, puntosDerecha])
+# Configura los LEDs
+ledHome = digitalio.DigitalInOut(board.D5)
+ledHome.direction = digitalio.Direction.OUTPUT
+ledMarchas = digitalio.DigitalInOut(board.D18)
+ledMarchas.direction = digitalio.Direction.OUTPUT
+ledManiobras = digitalio.DigitalInOut(board.D19)
+ledManiobras.direction = digitalio.Direction.OUTPUT
+ledManual = digitalio.DigitalInOut(board.D23)
+ledManual.direction = digitalio.Direction.OUTPUT
 
 #---------------------------------------------------------------------------------
 
@@ -85,32 +69,38 @@ def puntosP4():
     return ([x, y])
 
 def puntosHome():
-    puntosIzquierda = [0, 14]
-    puntosDerecha = [2, 14]
-    return([puntosIzquierda, puntosDerecha])
+    puntosP1 = [1, 14]
+    puntosP2 = [-3, 14]
+    puntosP3 = [3, 14]
+    puntosP4 = [-1, 14]
+    return([puntosP1, puntosP2, puntosP3, puntosP4])
 
 def puntosAgachado():
-    puntosIzquierda = [0, 10]
-    puntosDerecha = [2, 10]
-    return([puntosIzquierda, puntosDerecha])
+    puntosP1 = [1, 10]
+    puntosP2 = [-1, 10]
+    puntosP3 = [1, 10]
+    puntosP4 = [-1, 10]
+    return([puntosP1, puntosP2, puntosP3, puntosP4])
     
 def puntosParado():
-    puntosIzquierda = [0, 20]
-    puntosDerecha = [2, 20]
-    return([puntosIzquierda, puntosDerecha])
+    puntosP1 = [3, 20]
+    puntosP2 = [-4, 20]
+    puntosP3 = [4, 20]
+    puntosP4 = [-3, 20]
+    return([puntosP1, puntosP2, puntosP3, puntosP4])
 
 def puntosAdelante():
-    puntosP1 = [0, 10]
-    puntosP2 = [2, 14]
-    puntosP3 = [0, 14]
-    puntosP4 = [2, 10]
+    puntosP1 = [3, 10]
+    puntosP2 = [-1, 18]
+    puntosP3 = [1, 18]
+    puntosP4 = [-3, 10]
     return([puntosP1, puntosP2, puntosP3, puntosP4])
 
 def puntosAtras():
-    puntosP1 = [0, 14]
-    puntosP2 = [2, 10]
-    puntosP3 = [0, 10]
-    puntosP4 = [2, 14]
+    puntosP1 = [1, 16]
+    puntosP2 = [-3, 11]
+    puntosP3 = [3, 11]
+    puntosP4 = [-1, 16]
     return([puntosP1, puntosP2, puntosP3, puntosP4])
 
 #---------------------------------------------------------------------------------
@@ -273,11 +263,14 @@ def moverP2P4(puntosP2, puntosP4):
             
 def home():
     home = puntosHome()
+#     ledHome.value = True
+    servo_3.angle, servo_4.angle = inversaIzquierda(home[1][0], home[1][1])
+    servo_5.angle, servo_6.angle = inversaDerecha(home[2][0], home[2][1])
+    time.sleep(0.3)
     servo_1.angle, servo_2.angle = inversaIzquierda(home[0][0], home[0][1])
-    servo_3.angle, servo_4.angle = inversaIzquierda(home[0][0], home[0][1])
-    servo_5.angle, servo_6.angle = inversaDerecha(home[1][0], home[1][1])
-    servo_7.angle, servo_8.angle = inversaDerecha(home[1][0], home[1][1])
+    servo_7.angle, servo_8.angle = inversaDerecha(home[3][0], home[3][1])
     #time.sleep(0.1)
+#     ledHome.value = False
 
 #---------------------------------------------------------------------------------
             
@@ -306,19 +299,20 @@ def marchaDoble():
 def maniobraAgachado():
     agachado = puntosAgachado()
     servo_1.angle, servo_2.angle = inversaIzquierda(agachado[0][0], agachado[0][1])
-    servo_3.angle, servo_4.angle = inversaIzquierda(agachado[0][0], agachado[0][1])
-    servo_5.angle, servo_6.angle = inversaDerecha(agachado[1][0], agachado[1][1])
-    servo_7.angle, servo_8.angle = inversaDerecha(agachado[1][0], agachado[1][1])
+    servo_3.angle, servo_4.angle = inversaIzquierda(agachado[1][0], agachado[1][1])
+    servo_5.angle, servo_6.angle = inversaDerecha(agachado[2][0], agachado[2][1])
+    servo_7.angle, servo_8.angle = inversaDerecha(agachado[3][0], agachado[3][1])
     #time.sleep(0.1)
     
 #--------------------------------------------------------------------------------- 
     
 def maniobraParado():
     parado = puntosParado()
+    servo_3.angle, servo_4.angle = inversaIzquierda(parado[1][0], parado[1][1])
+    servo_5.angle, servo_6.angle = inversaDerecha(parado[2][0], parado[2][1])
+    time.sleep(0.35)
     servo_1.angle, servo_2.angle = inversaIzquierda(parado[0][0], parado[0][1])
-    servo_3.angle, servo_4.angle = inversaIzquierda(parado[0][0], parado[0][1])
-    servo_5.angle, servo_6.angle = inversaDerecha(parado[1][0], parado[1][1])
-    servo_7.angle, servo_8.angle = inversaDerecha(parado[1][0], parado[1][1])
+    servo_7.angle, servo_8.angle = inversaDerecha(parado[3][0], parado[3][1])
     #time.sleep(0.1)
     
 #--------------------------------------------------------------------------------- 
@@ -382,27 +376,46 @@ while True:
     #print(estado)
     
     if (estado == "Home"):
+        ledHome.value = True
         home()
         time.sleep(3)
+        ledHome.value = False
     elif (estado == "Marcha sencilla"):
+        ledMarchas.value = True
+        home()
         marchaSencilla()
+        ledMarchas.value = False
     elif (estado == "Marcha doble"):
+        ledMarchas.value = True
+        home()
         marchaDoble()
+        ledMarchas.value = False
     elif (estado == "Maniobra parado"):
+        maniobraAgachado()
+        ledManiobras.value = True
         maniobraParado()
         time.sleep(3)
+        ledManiobras.value = False
     elif (estado == "Maniobra agachado"):
+        ledManiobras.value = True
         maniobraAgachado()
         time.sleep(3)
+        ledManiobras.value = False
     elif (estado == "Maniobra inclinado hacia adelante"):
+        ledManiobras.value = True
         maniobraInclinadoAdelante()
         time.sleep(3)
+        ledManiobras.value = False
     elif (estado == "Maniobra inclinado hacia atras"):
+        ledManiobras.value = True
         maniobraInclinadoAtras()
         time.sleep(3)
+        ledManiobras.value = False
     elif (estado == "Ingreso manual de puntos"):
+        ledManual.value = True
         puntosManual()
         time.sleep(3)
+        ledManual.value = False
         
         
         
