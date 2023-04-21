@@ -409,7 +409,7 @@ def puntosManual():
     try:
         servo_1.angle, servo_2.angle = inversaIzquierda(x1, y1)
         servo_3.angle, servo_4.angle = inversaIzquierda(x2, y2)
-        ervo_5.angle, servo_6.angle = inversaDerecha(-x3, y3)
+        servo_5.angle, servo_6.angle = inversaDerecha(-x3, y3)
         servo_7.angle, servo_8.angle = inversaDerecha(-x4, y4)
     except:
         print("Punto fuera de rango")
