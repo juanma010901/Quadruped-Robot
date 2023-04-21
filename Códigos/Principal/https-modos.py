@@ -435,42 +435,42 @@ while True:
     if (estado == "Home"):
         ledHome.value = True
         home()
-        time.sleep(3)
+        time.sleep(1)
         ledHome.value = False
     elif (estado == "Maniobra agachado"):
         ledManiobras.value = True
         maniobraAgachado()
-        time.sleep(3)
+        time.sleep(1)
         ledManiobras.value = False
     elif (estado == "Maniobra parado"):
         ledManiobras.value = True
         maniobraParado()
-        time.sleep(3)
+        time.sleep(1)
         ledManiobras.value = False
     elif (estado == "Maniobra inclinado hacia adelante"):
         ledManiobras.value = True
         maniobraInclinadoAdelante()
-        time.sleep(3)
+        time.sleep(1)
         ledManiobras.value = False
     elif (estado == "Maniobra inclinado hacia atras"):
         ledManiobras.value = True
         maniobraInclinadoAtras()
-        time.sleep(3)
+        time.sleep(1)
         ledManiobras.value = False
     elif (estado == "Equilibrio dos patas izquierda"):
         ledManiobras.value = True
         maniobraInclinadoIzquierda()
-        time.sleep(3)
+        time.sleep(1)
         ledManiobras.value = False
     elif (estado == "Equilibrio dos patas derecha"):
         ledManiobras.value = True
         maniobraInclinadoDerecha()
-        time.sleep(3)
+        time.sleep(1)
         ledManiobras.value = False
     elif (estado == "Ingreso manual de puntos"):
         ledManual.value = True
         puntosManual()
-        time.sleep(3)
+        time.sleep(1)
         ledManual.value = False
     elif (estado == "Marcha doble"):
         ledMarchas.value = True
