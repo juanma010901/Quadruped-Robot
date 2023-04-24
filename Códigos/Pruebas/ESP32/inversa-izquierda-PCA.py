@@ -46,8 +46,8 @@ while True:
     theta2c = 140 - math.degrees(theta2)
     
     #Enviar a angulo corregido
-    servo1.angle = x
-    servo2.angle = y
+    servo7.angle = x
+    servo8.angle = y
     #servo3.angle = theta1c
     #servo4.angle = theta2c
     
