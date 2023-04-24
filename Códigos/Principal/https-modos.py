@@ -1,3 +1,4 @@
+# print("Hello World!")
 import adafruit_pca9685
 import adafruit_minimqtt.adafruit_minimqtt as MQTT
 import analogio
@@ -16,12 +17,12 @@ import adafruit_requests as requests
 
 #---------------------------------------------------------------------------------
 
-ssid = secrets.secrets["ssid"]
-password = secrets.secrets["password"]
-aio_username = secrets.secrets["aio_username"]
-aio_key = secrets.secrets["aio_key"]
-#ssid = "Redmi"
-#password = "987654321"
+#ssid = secrets.secrets["ssid"]
+#password = secrets.secrets["password"]
+#aio_username = secrets.secrets["aio_username"]
+#aio_key = secrets.secrets["aio_key"]
+ssid = "Redmi"
+password = "987654321"
 
 getPuntos = "https://masterusers.azurewebsites.net/api/GetPuntos"
 getModo = "https://masterusers.azurewebsites.net/api/GetModoActual"
@@ -87,6 +88,20 @@ def puntosParado():
     puntosP2 = [-4, 20]
     puntosP3 = [4, 20]
     puntosP4 = [-3, 20]
+    return([puntosP1, puntosP2, puntosP3, puntosP4])
+
+def puntosIzquierda():
+    puntosP1 = [3, 12]
+    puntosP2 = [-4, 12]
+    puntosP3 = [4, 18]
+    puntosP4 = [-3, 18]
+    return([puntosP1, puntosP2, puntosP3, puntosP4])
+
+def puntosDerecha():
+    puntosP1 = [3, 20]
+    puntosP2 = [-4, 20]
+    puntosP3 = [4, 12]
+    puntosP4 = [-3, 12]
     return([puntosP1, puntosP2, puntosP3, puntosP4])
 
 def puntosAdelante():
@@ -315,6 +330,7 @@ def maniobraAgachado():
     
 #--------------------------------------------------------------------------------- 
     
+<<<<<<< HEAD
 def maniobraParado(estadoAnterior):
     if(estadoAnterior == "Home"):
         espera = 0.2
@@ -326,6 +342,19 @@ def maniobraParado(estadoAnterior):
     else:
         espera = 0.2
         
+=======
+def maniobraParado():
+#     if(estadoAnterior == "Home"):
+#         espera = 0.2
+#     elif(estadoAnterior == "Maniobra agachado"):
+#         espera = 0.35
+# #     elif(estadoAnterior == "Agachado hacia atras"):
+# #         servo_1.angle, servo_2.angle = inversaIzquierda(home[0][0], home[0][1])
+# #         servo_7.angle, servo_8.angle = inversaDerecha(home[3][0], home[3][1])
+#     else:
+#         espera = 0.2
+#         
+>>>>>>> 93fbd6faf24010b46428486001949963810de291
     parado = puntosParado()
     servo_3.angle, servo_4.angle = inversaIzquierda(parado[1][0], parado[1][1])
     servo_5.angle, servo_6.angle = inversaDerecha(parado[2][0], parado[2][1])
@@ -334,6 +363,26 @@ def maniobraParado(estadoAnterior):
     servo_7.angle, servo_8.angle = inversaDerecha(parado[3][0], parado[3][1])
     #time.sleep(0.1)
     
+#---------------------------------------------------------------------------------   
+
+def maniobraInclinadoIzquierda():
+    izquierda = puntosIzquierda()
+    servo_1.angle, servo_2.angle = inversaIzquierda(izquierda[0][0], izquierda[0][1])
+    servo_3.angle, servo_4.angle = inversaIzquierda(izquierda[1][0], izquierda[1][1])
+    servo_5.angle, servo_6.angle = inversaDerecha(izquierda[2][0], izquierda[2][1])
+    servo_7.angle, servo_8.angle = inversaDerecha(izquierda[3][0], izquierda[3][1])
+    #time.sleep(0.1)
+    
+#---------------------------------------------------------------------------------   
+
+def maniobraInclinadoDerecha():
+    derecha = puntosDerecha()
+    servo_1.angle, servo_2.angle = inversaIzquierda(derecha[0][0], derecha[0][1])
+    servo_3.angle, servo_4.angle = inversaIzquierda(derecha[1][0], derecha[1][1])
+    servo_5.angle, servo_6.angle = inversaDerecha(derecha[2][0], derecha[2][1])
+    servo_7.angle, servo_8.angle = inversaDerecha(derecha[3][0], derecha[3][1])
+    #time.sleep(0.1)
+
 #--------------------------------------------------------------------------------- 
     
 def maniobraInclinadoAdelante():
@@ -374,7 +423,11 @@ def puntosManual():
     try:
         servo_1.angle, servo_2.angle = inversaIzquierda(x1, y1)
         servo_3.angle, servo_4.angle = inversaIzquierda(x2, y2)
+<<<<<<< HEAD
         ervo_5.angle, servo_6.angle = inversaDerecha(-x3, y3)
+=======
+        servo_5.angle, servo_6.angle = inversaDerecha(-x3, y3)
+>>>>>>> 93fbd6faf24010b46428486001949963810de291
         servo_7.angle, servo_8.angle = inversaDerecha(-x4, y4)
     except:
         print("Punto fuera de rango")
@@ -383,7 +436,11 @@ pararse()
 
 json = {}
 
+<<<<<<< HEAD
 estadoAnterior = ""
+=======
+#estadoAnterior = ""
+>>>>>>> 93fbd6faf24010b46428486001949963810de291
 while True:
     print("Fetching text from %s" % getModo)
     response = https.get(getModo)
@@ -392,39 +449,75 @@ while True:
     print(info)
     #print(type(json))
     
+    #estadoAnterior = estado
     estado = info["descripcion"]
+<<<<<<< HEAD
     estadoAnterior = estado
+=======
+    #print(estadoAnterior)
+>>>>>>> 93fbd6faf24010b46428486001949963810de291
     #print(estado)
     
     if (estado == "Home"):
         ledHome.value = True
         home()
-        time.sleep(3)
+        time.sleep(1)
         ledHome.value = False
     elif (estado == "Maniobra agachado"):
         ledManiobras.value = True
         maniobraAgachado()
+<<<<<<< HEAD
         time.sleep(3)
         ledManiobras.value = False
     elif (estado == "Maniobra parado"):
         ledManiobras.value = True
         maniobraParado(estadoAnterior)
         time.sleep(3)
+=======
+        time.sleep(1)
+        ledManiobras.value = False
+    elif (estado == "Maniobra parado"):
+        ledManiobras.value = True
+        maniobraParado()
+        time.sleep(1)
+>>>>>>> 93fbd6faf24010b46428486001949963810de291
         ledManiobras.value = False
     elif (estado == "Maniobra inclinado hacia adelante"):
         ledManiobras.value = True
         maniobraInclinadoAdelante()
+<<<<<<< HEAD
         time.sleep(3)
+=======
+        time.sleep(1)
+>>>>>>> 93fbd6faf24010b46428486001949963810de291
         ledManiobras.value = False
     elif (estado == "Maniobra inclinado hacia atras"):
         ledManiobras.value = True
         maniobraInclinadoAtras()
+<<<<<<< HEAD
         time.sleep(3)
+=======
+        time.sleep(1)
+        ledManiobras.value = False
+    elif (estado == "Equilibrio dos patas izquierda"):
+        ledManiobras.value = True
+        maniobraInclinadoIzquierda()
+        time.sleep(1)
+        ledManiobras.value = False
+    elif (estado == "Equilibrio dos patas derecha"):
+        ledManiobras.value = True
+        maniobraInclinadoDerecha()
+        time.sleep(1)
+>>>>>>> 93fbd6faf24010b46428486001949963810de291
         ledManiobras.value = False
     elif (estado == "Ingreso manual de puntos"):
         ledManual.value = True
         puntosManual()
+<<<<<<< HEAD
         time.sleep(3)
+=======
+        time.sleep(1)
+>>>>>>> 93fbd6faf24010b46428486001949963810de291
         ledManual.value = False
     elif (estado == "Marcha doble"):
         ledMarchas.value = True
@@ -436,6 +529,7 @@ while True:
         home()
         marchaSencilla()
         ledMarchas.value = False
+<<<<<<< HEAD
     
     
     
@@ -447,3 +541,5 @@ while True:
         
         
     
+=======
+>>>>>>> 93fbd6faf24010b46428486001949963810de291
