@@ -411,6 +411,13 @@ def puntosManual():
     response.close()
     print(puntos)
     print(type(puntos))
+    
+    #Pedir puntos de home para comparar en caso de que el enviado sea el Home
+    home = puntosHome()
+    x3h = home[2][0]
+    x4h = home[3][0]
+    print(x3h, x4h)
+    
     x1 = puntos[0]["p1X"]
     y1 = puntos[0]["p1Y"]
     x2 = puntos[0]["p2X"]
@@ -422,8 +429,14 @@ def puntosManual():
     try:
         servo_1.angle, servo_2.angle = inversaIzquierda(x1, y1)
         servo_3.angle, servo_4.angle = inversaIzquierda(x2, y2)
-        servo_5.angle, servo_6.angle = inversaDerecha(-x3, y3)
-        servo_7.angle, servo_8.angle = inversaDerecha(-x4, y4)
+        if x3h == x3:
+            servo_5.angle, servo_6.angle = inversaDerecha(x3, y3)
+        else:
+            servo_5.angle, servo_6.angle = inversaDerecha(-x3, y3)
+        if x4h == x4:
+            servo_7.angle, servo_8.angle = inversaDerecha(x4, y4)
+        else:
+            servo_7.angle, servo_8.angle = inversaDerecha(-x4, y4)
     except:
         print("Punto fuera de rango")
     
