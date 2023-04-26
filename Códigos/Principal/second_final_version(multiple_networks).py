@@ -10,7 +10,7 @@ import ipaddress
 import json
 import math
 import pulseio
-import secrets
+import wifi_networks
 import socketpool
 import ssl
 import time
@@ -19,23 +19,12 @@ from adafruit_motor import servo
 
 #---------------------------------------------------------------------------------
 
-ssid = secrets.secrets["ssid"]
-password = secrets.secrets["password"]
-
 #EndPoints API
 getPuntos = "https://masterusers.azurewebsites.net/api/GetPuntos"
 getModo = "https://masterusers.azurewebsites.net/api/GetModoActual"
 updateModo = "https://masterusers.azurewebsites.net/api/ActualizarModo"
 
-#Set static IP address
-# ipv4 =  ipaddress.IPv4Address("192.168.1.3")
-# netmask =  ipaddress.IPv4Address("255.255.255.0")
-# gateway =  ipaddress.IPv4Address("192.168.1.1")
-# wifi.radio.set_ipv4_address(ipv4=ipv4,netmask=netmask,gateway=gateway)
-
-wifi.radio.connect(ssid, password)
-print("Connected to %s!" % ssid)
-print("My IP address is", wifi.radio.ipv4_address)
+wifi_networks.connect_to_network()
 
 pool = socketpool.SocketPool(wifi.radio)
 https = requests.Session(pool, ssl.create_default_context())
@@ -537,7 +526,7 @@ while True:
         distance2 = medir_distancia(2)
         print(distance1, distance2)
         home()
-        if distance1 < 20.0 or distance2 < 20.0:
+        if distance1 < 25.0 or distance2 < 25.0:
             cambioHome()
         else:
             marchaDoble()
