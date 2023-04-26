@@ -1,5 +1,7 @@
+import adafruit_hcsr04
 import adafruit_pca9685
 import adafruit_minimqtt.adafruit_minimqtt as MQTT
+import adafruit_requests as requests
 import analogio
 import board
 import busio
@@ -7,13 +9,13 @@ import digitalio
 import ipaddress
 import json
 import math
+import pulseio
 import secrets
 import socketpool
 import ssl
 import time
 import wifi
 from adafruit_motor import servo
-import adafruit_requests as requests
 
 #---------------------------------------------------------------------------------
 
@@ -53,6 +55,23 @@ ledManiobras = digitalio.DigitalInOut(board.D19)
 ledManiobras.direction = digitalio.Direction.OUTPUT
 ledManual = digitalio.DigitalInOut(board.D23)
 ledManual.direction = digitalio.Direction.OUTPUT
+
+#--------------------------------------------------------------------------------
+#Configuración de los ultrasonidos
+
+# Configurar los pines Trig y Echo del sensor de ultrasonido
+echo_pin1 = board.D34
+echo_pin2 = board.D35
+trig_pin1 = board.D32
+trig_pin2 = board.D33
+
+# Configurar el temporizador para medir la duración del pulso de eco
+timer1 = pulseio.PulseIn(echo_pin1, maxlen=1)
+timer2 = pulseio.PulseIn(echo_pin2, maxlen=1)
+
+# Configurar el objeto del sensor de ultrasonido
+sonar1 = adafruit_hcsr04.HCSR04(trigger_pin=trig_pin1, echo_pin=echo_pin1, timeout=0.1)
+sonar2 = adafruit_hcsr04.HCSR04(trigger_pin=trig_pin2, echo_pin=echo_pin2, timeout=0.1)
 
 #---------------------------------------------------------------------------------
 
@@ -423,12 +442,49 @@ def puntosManual():
     except:
         print("Punto fuera de rango")
     
+#---------------------------------------------------------------------------------  
+    
+# Definir la función de medición de distancia
+def medir_distancia(sensor):
+    try:
+        if sensor == 1:
+            distance1 = sonar1.distance
+            return distance1
+        elif sensor == 2:
+            distance2 = sonar2.distance
+            return distance2
+    except:
+        if sensor == 1:
+            distance1 = 450
+            return distance1
+        elif sensor == 2:
+            distance2 = 450
+            return distance2
+
+#--------------------------------------------------------------------------------- 
+    
+#Actualizar modo
+def cambioHome():
+    data = '{"Id":1,"Activo": true,"Descripcion": "Home","SeccionId": 1}'
+    print("POSTing data to {0}: {1}".format(updateModo, data))
+    response = https.put(updateModo, data=data)
+    
+#---------------------------------------------------------------------------------
+    
+    
+#---------------------------------------------------------------------------------
+#CICLO INFINITO
+#--------------------------------------------------------------------------------- 
+    
 pararse()
 
 json = {}
 
 #estadoAnterior = ""
 while True:
+    # Llamar a la función de medición de distancia
+    
+    
     print("Fetching text from %s" % getModo)
     response = https.get(getModo)
     info = response.json()
@@ -483,11 +539,22 @@ while True:
         ledManual.value = False
     elif (estado == "Marcha doble"):
         ledMarchas.value = True
+        distance1 = medir_distancia(1)
+        distance2 = medir_distancia(2)
+        print(distance1, distance2)
         home()
-        marchaDoble()
+        if distance1 < 20.0 or distance2 < 20.0:
+            cambioHome()
+        else:
+            marchaDoble()
         ledMarchas.value = False
     elif (estado == "Marcha sencilla"):
         ledMarchas.value = True
+        distance1 = medir_distancia(1)
+        distance2 = medir_distancia(2)
         home()
-        marchaSencilla()
+        if distance1 < 15 and distance2 < 15:
+            cambioHome()
+        else:
+            marchaDoble()
         ledMarchas.value = False
