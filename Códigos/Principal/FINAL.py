@@ -1,3 +1,4 @@
+#print("Hello World!")
 import adafruit_hcsr04
 import adafruit_pca9685
 import adafruit_minimqtt.adafruit_minimqtt as MQTT
@@ -492,17 +493,13 @@ while True:
         info = response.json()
         response.close()
         print(info)
+        estado = info["descripcion"]
         #print(type(json))
+        #print(estado)
     except Exception as e:
         print("Error de conexion: ", e)
-        home()
+        estado = "Home"
         connection()
-        
-    
-    #estadoAnterior = estado
-    estado = info["descripcion"]
-    #print(estadoAnterior)
-    #print(estado)
     
     if (estado == "Home"):
         ledHome.value = True
