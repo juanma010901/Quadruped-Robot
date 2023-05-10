@@ -495,6 +495,7 @@ while True:
         #print(type(json))
     except Exception as e:
         print("Error de conexion: ", e)
+        home()
         connection()
         
     
