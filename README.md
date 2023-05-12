@@ -14,7 +14,9 @@
   <strong>Desarrollar un robot cuadrúpedo para el trabajo en entornos peligrosos como plataforma de validación de estrategias de control.</strong><br>
 </h3>
 
-
+<p align="center">
+  <img src="https://github.com/juanma010901/Quadruped-Robot/assets/119358374/12f7c803-a0b8-47c2-acca-690654f2957a" alt="Quadruped Robot" width="500" />
+<p/>
 
 ## Contributors 👏
 <h3 align="center">
