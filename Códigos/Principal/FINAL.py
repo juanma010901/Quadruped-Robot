@@ -1,3 +1,4 @@
+#print("Hello World!")
 import adafruit_hcsr04
 import adafruit_pca9685
 import adafruit_minimqtt.adafruit_minimqtt as MQTT
@@ -20,11 +21,16 @@ from adafruit_motor import servo
 #---------------------------------------------------------------------------------
 
 #EndPoints API
-getPuntos = "https://masterusers.azurewebsites.net/api/GetPuntos"
-getModo = "https://masterusers.azurewebsites.net/api/GetModoActual"
-updateModo = "https://masterusers.azurewebsites.net/api/ActualizarModo"
+getPuntos = "https://tg-backend-jl.azurewebsites.net/api/GetPuntos"
+getModo = "https://tg-backend-jl.azurewebsites.net/api/GetModoActual"
+updateModo = "https://tg-backend-jl.azurewebsites.net/api/ActualizarModo"
 
-wifi_networks.connect_to_network()
+
+def connection():
+    print("INICIO")
+    wifi_networks.connect()
+    print("FIN")
+connection()
 
 pool = socketpool.SocketPool(wifi.radio)
 https = requests.Session(pool, ssl.create_default_context())
@@ -481,17 +487,19 @@ json = {}
 #estadoAnterior = ""
 while True:
     
-    print("Fetching text from %s" % getModo)
-    response = https.get(getModo)
-    info = response.json()
-    response.close()
-    print(info)
-    #print(type(json))
-    
-    #estadoAnterior = estado
-    estado = info["descripcion"]
-    #print(estadoAnterior)
-    #print(estado)
+    try:
+        print("Fetching text from %s" % getModo)
+        response = https.get(getModo)
+        info = response.json()
+        response.close()
+        print(info)
+        estado = info["descripcion"]
+        #print(type(json))
+        #print(estado)
+    except Exception as e:
+        print("Error de conexion: ", e)
+        estado = "Home"
+        connection()
     
     if (estado == "Home"):
         ledHome.value = True
