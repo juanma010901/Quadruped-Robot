@@ -20,24 +20,23 @@
 
 A continuación se adjunta la [bitácora](https://docs.google.com/document/d/16br_ky9jK_mnqHfYBe1mgxbT8HZGymYTXOIlTPQXyck/edit?usp=sharing) del proyecto en la cual se podrán evidenciar las actividades realizadas durante cada fecha y los resultados obtenidos en la medida que se desarrollaba el proyecto.
 
-## Contributors 👏
-<h3 align="center">
-  <p>Juan Manuel Hincapié</p>
-  <a href="https://github.com/juanma010901">
-    <img src="https://avatars.githubusercontent.com/u/119358374?v=4" alt="Juan Manuel" width="100" />
-  </a>
-  <br>
-  <p>Luis Alejandro Pérez</p>
-  <a href="https://github.com/luisfbcudj94">
-    <img src="https://avatars.githubusercontent.com/u/74807862?v=4" alt="Luis Pérez" width="100" />
-  </a>
-  <br>
-  <p>David Rozo Osorio</p>
-  <a href="david.rozo31@eia.edu.co">
-    <img src="https://avatars.githubusercontent.com/u/88332307?v=4" alt="David Rozo" width="100" />
-  </a>
-  <br>
-</h3>
+## Materiales  🦾🔨
+- [ESP32](https://github.com/juanma010901/Quadruped-Robot/blob/main/DataSheets/ESP32.pdf)
+- [HC-SR04](https://github.com/juanma010901/Quadruped-Robot/blob/main/DataSheets/HC-SR04.PDF) x 2
+- [LM2596](https://github.com/juanma010901/Quadruped-Robot/blob/main/DataSheets/LM2596.pdf)
+- [MG996R](https://github.com/juanma010901/Quadruped-Robot/blob/main/DataSheets/MG996R.pdf) x 8
+- [PCA9685](https://github.com/juanma010901/Quadruped-Robot/blob/main/DataSheets/PCA9685.PDF)
+- [LCD16x2](https://github.com/juanma010901/Quadruped-Robot/blob/main/DataSheets/LCD16x2.pdf)
+- [I2C Module](https://github.com/juanma010901/Quadruped-Robot/blob/main/DataSheets/I2C-1602-LCD.pdf)
+
+
+## Contributors 💡 and Contact 📩
+| Juan Manuel Hincapié | Luis Alejandro Pépez | David Rozo Osorio |
+| :------------: | :------------: | :------------: | 
+| <a href="https://github.com/juanma010901"><img src="https://avatars.githubusercontent.com/u/119358374?v=4" alt="Juan Manuel" width="100" /></a> |  <a href="https://github.com/luisfbcudj94"><img src="https://avatars.githubusercontent.com/u/74807862?v=4" alt="Luis Pérez" width="100" /></a> |<a href="david.rozo31@eia.edu.co"><img src="https://avatars.githubusercontent.com/u/88332307?v=4" alt="David Rozo" width="100" /></a>| 
+| <a href="https://www.linkedin.com/in/juan-manuel-hincapie/"><img src="https://img.shields.io/badge/LinkedIn_Profile-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn Profile" /></a> | <a href="https://co.linkedin.com/in/luis-alejandro-pérez-abril"><img src="https://img.shields.io/badge/LinkedIn_Profile-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn Profile" /></a> | <a href="https://co.linkedin.com/in/david-rozo-osorio-98b6aa226"><img src="https://img.shields.io/badge/LinkedIn_Profile-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn Profile" /></a> | 
+ 
+
 
 Emoji
 📖 🚀 🦾 🦿 🔧 🎯 🔨 ⚒ 🛠 ⛏ 🔌 💡 🔓 📌 📍 📩 
