@@ -21,9 +21,13 @@ from adafruit_motor import servo
 #---------------------------------------------------------------------------------
 
 #EndPoints API
-getPuntos = "https://tg-backend-jl.azurewebsites.net/api/GetPuntos"
-getModo = "https://tg-backend-jl.azurewebsites.net/api/GetModoActual"
-updateModo = "https://tg-backend-jl.azurewebsites.net/api/ActualizarModo"
+#getPuntos = "https://tg-backend-jl.azurewebsites.net/api/GetPuntos"
+#getModo = "https://tg-backend-jl.azurewebsites.net/api/GetModoActual"
+#updateModo = "https://tg-backend-jl.azurewebsites.net/api/ActualizarModo"
+
+getPuntos = "https://masterusers.azurewebsites.net/api/GetPuntos"
+getModo = "https://masterusers.azurewebsites.net/api/GetModoActual"
+updateModo = "https://masterusers.azurewebsites.net/api/ActualizarModo"
 
 
 def connection():
