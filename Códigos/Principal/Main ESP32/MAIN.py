@@ -21,13 +21,13 @@ from adafruit_motor import servo
 #---------------------------------------------------------------------------------
 
 #EndPoints API
-#getPuntos = "https://tg-backend-jl.azurewebsites.net/api/GetPuntos"
-#getModo = "https://tg-backend-jl.azurewebsites.net/api/GetModoActual"
-#updateModo = "https://tg-backend-jl.azurewebsites.net/api/ActualizarModo"
+getPuntos = "https://tg-backend-jl.azurewebsites.net/api/GetPuntos"
+getModo = "https://tg-backend-jl.azurewebsites.net/api/GetModoActual"
+updateModo = "https://tg-backend-jl.azurewebsites.net/api/ActualizarModo"
 
-getPuntos = "https://masterusers.azurewebsites.net/api/GetPuntos"
-getModo = "https://masterusers.azurewebsites.net/api/GetModoActual"
-updateModo = "https://masterusers.azurewebsites.net/api/ActualizarModo"
+#getPuntos = "https://masterusers.azurewebsites.net/api/GetPuntos"
+#getModo = "https://masterusers.azurewebsites.net/api/GetModoActual"
+#updateModo = "https://masterusers.azurewebsites.net/api/ActualizarModo"
 
 
 def connection():
@@ -428,15 +428,17 @@ def puntosManual():
     x4h = home[3][0]
     print(x3h, x4h)
     
-    x1 = puntos[0]["p1X"]
-    y1 = puntos[0]["p1Y"]
-    x2 = puntos[0]["p2X"]
-    y2 = puntos[0]["p2Y"]
-    x3 = puntos[0]["p3X"]
-    y3 = puntos[0]["p3Y"]
-    x4 = puntos[0]["p4X"]
-    y4 = puntos[0]["p4Y"]
     try:
+        
+        x1 = puntos[0]["p1X"]
+        y1 = puntos[0]["p1Y"]
+        x2 = puntos[0]["p2X"]
+        y2 = puntos[0]["p2Y"]
+        x3 = puntos[0]["p3X"]
+        y3 = puntos[0]["p3Y"]
+        x4 = puntos[0]["p4X"]
+        y4 = puntos[0]["p4Y"]
+    
         servo_1.angle, servo_2.angle = inversaIzquierda(x1, y1)
         servo_3.angle, servo_4.angle = inversaIzquierda(x2, y2)
         if x3h == x3:

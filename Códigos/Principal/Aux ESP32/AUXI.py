@@ -3,12 +3,17 @@ import board
 import analogio
 import digitalio
 import json
-import socketpool
 import ssl
 import time
 import wifi
-import adafruit_requests as requests
 import wifi_networks
+
+import socketpool
+import adafruit_requests as requests
+
+#import socket
+#import adafruit_requests
+
 
 def connection():
     print("INICIO")
@@ -17,9 +22,17 @@ def connection():
 connection()
 
 azure = "https://tg-backend-jl.azurewebsites.net/api/GuardarAngulos"
-webhook = "https://webhook.site/fa02fa4d-43ee-4595-bb87-a56ef514b6b9"
+webhook = "https://webhook.site/60b6863b-6f1a-4d13-819b-a33a30a78183"
+
+#http = adafruit_requests.Session(socket)
+
+#pool = socketpool.SocketPool(wifi.radio)
+#https = requests.Session(pool, ssl.create_default_context())
+
 pool = socketpool.SocketPool(wifi.radio)
-https = requests.Session(pool, ssl.create_default_context())
+context = ssl.create_default_context()
+context.check_hostname = False
+https = requests.Session(pool, context)
 
 uart = busio.UART(board.TX, board.RX, baudrate=9600)
 
@@ -27,7 +40,7 @@ uart = busio.UART(board.TX, board.RX, baudrate=9600)
 entrada_34 = board.D34
 entrada_35 = board.D35
 # Crear un objeto de entrada analógica
-M7 = analogio.AnalogIn(entrada_34)
+M6 = analogio.AnalogIn(entrada_34)
 M8 = analogio.AnalogIn(entrada_35)
 
 def voltage(json_data):
@@ -44,7 +57,7 @@ def deg(voltages):
     return deg_dic
 
 while True:
-    if uart.in_waiting > 0:
+    if uart.in_waiting > 0 and wifi.radio.ipv4_address:
         data = uart.readline().decode().strip()
         try:
             json_data = json.loads(data)
@@ -53,16 +66,16 @@ while True:
             grados = deg(voltages)
             #print("Grados:", grados)
             
-            valor_analogico_M7 = M7.value
+            valor_analogico_M6 = M6.value
             valor_analogico_M8 = M8.value
             
-            json_data['A41'] = valor_analogico_M7
+            json_data['A32'] = valor_analogico_M6
             json_data['A42'] = valor_analogico_M8
             
-            voltages['A41'] = valor_analogico_M7 * (3.3 / 65535)
+            voltages['A32'] = valor_analogico_M6 * (3.3 / 65535)
             voltages['A42'] = valor_analogico_M8 * (3.3 / 65535)
             
-            grados['A41'] = int((voltages['A41'] -0.437499999)/0.0144166667)
+            grados['A32'] = int((voltages['A32'] -0.437499999)/0.0144166667)
             grados['A42'] = int((voltages['A42'] -0.437499999)/0.0144166667)
             
             print("AnalogRead", json_data)
@@ -70,10 +83,23 @@ while True:
             print("Grados:", grados)
             
             print("POSTing data to {0}".format(azure))
+            
+            #azure
+            #webhook
+            
             response = https.post(azure, data=str(grados))
-            json_resp = response
+            #json_resp = response.json()
+            #print("Data received from server:", json_resp["data"])
             response.close()
             
-            print('=============================================')
+            #response = http.post(webhook, data=str(grados))
+            #response.close()
+                        
+            print('=============================================================================================================')
         except ValueError:
             print("Error al decodificar el JSON")
+            #connection()
+            
+            
+            
+            

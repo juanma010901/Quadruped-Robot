@@ -2,6 +2,8 @@
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h> 
 
+LiquidCrystal_I2C lcd(0x27,16,2);
+
 byte QR[8] = {
   B00000,
   B00000,
@@ -28,22 +30,17 @@ int N1 = A0;
 int N2 = A1;
 int N3 = A2;
 int N4 = A3;
-int N5 = A4;
-int N6 = A5;
+int N5 = A6;
+int N6 = A7;
 
 int M1 = 0;
-int M2 = 0;
 int M3 = 0;
-int M4 = 0;
 int M5 = 0;
-int M6 = 0;
-
-LiquidCrystal_I2C lcd(0x27,16,2);
+int M7 = 0;
+int M2 = 0;
+int M4 = 0;
 
 void setup() {
-
-  Serial.begin(9600);
-
   lcd.init();
   lcd.backlight();
   lcd.clear();
@@ -66,28 +63,30 @@ void setup() {
   pinMode(N4, INPUT);
   pinMode(N5, INPUT);
   pinMode(N6, INPUT);
+
+  Serial.begin(9600);
 }
 
 void loop() {
   lcd.display();
 
   M1 = analogRead(N1);
-  M2 = analogRead(N2);
-  M3 = analogRead(N3);
-  M4 = analogRead(N4);
-  M5 = analogRead(N5);
-  M6 = analogRead(N6);
+  M3 = analogRead(N2);
+  M5 = analogRead(N3);
+  M7 = analogRead(N4);
+  M2 = analogRead(N5);
+  M4 = analogRead(N6);
 
   // Crear el documento JSON
   DynamicJsonDocument doc(128);
 
   // Agregar datos al JSON
   doc["A11"] = M1;
-  doc["A12"] = M2;
   doc["A21"] = M3;
-  doc["A22"] = M4;
   doc["A31"] = M5;
-  doc["A32"] = M6;
+  doc["A41"] = M7;
+  doc["A12"] = M2;
+  doc["A22"] = M4;
 
   // Serializar el JSON en un búfer
   char buffer[128];
@@ -96,5 +95,5 @@ void loop() {
   // Enviar el JSON a través del puerto serial
   Serial.println(buffer);
 
-  delay(4000);
+  delay(500);
 }
