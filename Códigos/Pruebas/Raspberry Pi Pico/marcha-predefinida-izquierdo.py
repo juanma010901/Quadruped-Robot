@@ -19,10 +19,10 @@ my_servo1 = servo.Servo(pwm1, min_pulse=500, max_pulse=2500)
 my_servo2 = servo.Servo(pwm2, min_pulse=500, max_pulse=2500)
 
 #Definir los vectores x e y
-x = [0, 4, 8, 0]
-y = [14, 8, 14, 14]
-#x = [4, -12, 1, -9, 14, 12, 16, 8, -4, -4, 18, -3, 5, -5, -10, 12, -7, 1, 2, 11]
-#y = [19, 16, 16, 17, 1, 6, 1, 14, 15, 18, 10, 21, 19, 21, 14, 5, 12, 13, 18, 11]
+#x = [0, 4, 8, 0]
+#y = [14, 8, 14, 14]
+x = [4, -12, 1, -9, 14, 12, 16, 8, -4, -4, 18, -3, 5, -5, -10, 12, -7, 1, 2, 11]
+y = [19, 16, 16, 17, 1, 6, 1, 14, 15, 18, 10, 21, 19, 21, 14, 5, 12, 13, 18, 11]
 
 # Definir las longitudes de las dos articulaciones del robot
 l1 = 11
