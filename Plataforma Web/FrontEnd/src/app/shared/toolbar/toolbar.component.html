@@ -1,0 +1,51 @@
+<div class="container-toolbar">
+    <button mat-icon-button *ngIf="showOptions" (click)="onOpenClick()">
+            <mat-icon>menu</mat-icon>
+    </button>
+    <div class="title-toolbar">
+        <span class="title-bold">Plataforma cuadrúpeda RCJA</span>
+    </div>
+
+    <div class="notificacion">
+        <!-- <img src="../../../assets/icons/campanaNotificacion.svg" alt="">
+        <div>
+            <img src="../../../assets/icons/alertaNotificacion.svg" alt="" id="numero-notificacion">
+        </div> -->
+
+    </div>
+
+    <div class="user-toolbar">
+        <div class="userName">Usuario Activo</div>
+        <div class="logo">
+            <mat-icon>supervised_user_circle</mat-icon>
+        </div>
+    </div>
+
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>keyboard_arrow_down</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+        <div class="container-mat-menu">
+            <div class="buttons">
+                <div class="button">
+                    <mat-icon class="a-green">settings</mat-icon>
+                    <span class="a-green">Ajustes de cuenta</span>
+                </div>
+
+                <div class="button">
+                    <mat-icon class="a-green">chat_bubble</mat-icon>
+                    <span class="a-green">Ayuda y comentarios</span>
+                </div>
+
+                <div class="button" >
+                    <mat-icon class="a-green">person</mat-icon>
+                    <span class="a-green">Cerrar sesión</span>
+                </div>
+            </div>
+            <div class="footer">
+                <mat-icon class="a-green">person_outline</mat-icon>
+                <span class="a-green">Iniciar sesión con otra cuenta</span>
+            </div>
+        </div>
+    </mat-menu>
+</div>

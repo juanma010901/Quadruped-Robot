@@ -1,0 +1,108 @@
+<div class="container-control">
+    <div class="prender-robot">
+        <span class="title">RCJA Se encuentra <b *ngIf="!isChecked">Apagado</b> <b *ngIf="isChecked">Encendido</b> </span>
+        <div class="encender">
+            <input type="checkbox" id="switch" [(ngModel)]="isChecked"(ngModelChange)="onToggle()" /><label for="switch">Toggle</label>
+        </div>
+
+        <!-- <span class="title">Encender ultrasonidos</span>
+        <div class="prender-ultrasonido">
+            <div class="encender-ultrasonido">
+                <input type="checkbox" id="switch" [(ngModel)]="isChecked"(ngModelChange)="onToggle()" /><label for="switch">Toggle</label>
+            </div>
+        </div> -->
+    </div>
+    <div class="select-modo" *ngIf="isChecked">
+        <span class="title">Seleccione el modo de operación</span>
+        <div class="container-modos">
+            <div class="modo" (click)="changeModoOperacion('Puntos')">
+                <span>Puntos definidos</span>
+                <button [ngClass]="{'led-verde': secionIdActiva == 1 || secionIdActiva == 2, 'led-rojo': !(secionIdActiva == 1 || secionIdActiva == 2)}"></button>
+            </div>
+            <div class="modo" (click)="changeModoOperacion('Definidas')">
+                <span>Marchas definidas</span>
+                <button [ngClass]="{'led-verde': secionIdActiva == 4, 'led-rojo': !(secionIdActiva == 4)}"></button>
+            </div>
+            <div class="modo" (click)="changeModoOperacion('Manual')">
+                <span>Modo manual</span>
+                <button [ngClass]="{'led-verde': secionIdActiva == 3, 'led-rojo': !(secionIdActiva == 3)}"></button>
+            </div>
+        </div>
+    </div>
+    <div class="img-robot">
+        <img src="../../../assets/EJES_ROBOT.jpeg" alt="">
+    </div>
+    <div class="container-modo-selected" *ngIf="isChecked">
+        <div class="content-modo puntos" *ngIf="operationMode == 'Puntos'">
+            <span class="title">Puntos definidos</span>
+            <div class="options">
+                <span *ngFor="let opt of PuntosDefinidos" (click)="updatePunto(opt)">
+                    {{opt.descripcion}}
+                    <button [ngClass]="{'led-verde': opt.activo, 'led-rojo': !opt.activo}"></button>
+                </span>
+            </div>
+        </div>
+        <div class="content-modo marchas" *ngIf="operationMode == 'Definidas'">
+            <span class="title">Marchas definidas</span>
+            <div class="options">
+                <span *ngFor="let opt of MarchasDefinidas" (click)="updatePunto(opt)">
+                    {{opt.descripcion}}
+                    <button [ngClass]="{'led-verde': opt.activo, 'led-rojo': !opt.activo}"></button>
+                </span>
+            </div>
+        </div>
+        <div class="content-modo manual" *ngIf="operationMode == 'Manual'">
+            <span class="title">Modo manual</span>
+            <form [formGroup]="patasForm">
+                <div class="pata">
+                    <b>Extremidad</b>
+                    <b>X</b>
+                    <b>Y</b>
+                </div>
+                <div class="pata">
+                    <span>Pata 1</span>
+                    <input type="number" formControlName="P1X">
+                    <input type="number" formControlName="P1Y">
+                </div>
+
+                <div class="pata">
+                    <span>Pata 2</span>
+                    <input type="number" formControlName="P2X">
+                    <input type="number" formControlName="P2Y">
+                </div>
+
+                <div class="pata">
+                    <span>Pata 3</span>
+                    <input type="number" formControlName="P3X">
+                    <input type="number" formControlName="P3Y">
+                </div>
+
+                <div class="pata">
+                    <span>Pata 4</span>
+                    <input type="number" formControlName="P4X">
+                    <input type="number" formControlName="P4Y">
+                </div>
+
+                <div class="button">
+                    <button class="white-button" (click)="sendData()">Enviar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="container-chart" *ngIf="isChecked">
+        
+        <div class="content-chart">
+            <span class="title">Movimientos en tiempo real</span>
+            <span class="title">{{titlePataSelected}}</span>
+            <app-chart-custom [setChartOptions]="dataChartSelected"></app-chart-custom>
+            <div class="container-buttons">
+
+                <button class="blue-claro-button" (click)="changeChart('pata1')">Pata 1</button>
+                <button class="blue-claro-button" (click)="changeChart('pata2')">Pata 2</button>
+                <button class="blue-claro-button" (click)="changeChart('pata3')">Pata 3</button>
+                <button class="blue-claro-button" (click)="changeChart('pata4')">Pata 4</button>
+
+            </div>
+        </div>
+    </div>
+</div>
