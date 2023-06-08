@@ -23,12 +23,12 @@ A continuación se adjunta la [bitácora](https://docs.google.com/document/d/16b
 ## Materiales  🦾🔨
 - [ESP32](https://github.com/juanma010901/Quadruped-Robot/blob/main/DataSheets/ESP32.pdf)
 - [HC-SR04](https://github.com/juanma010901/Quadruped-Robot/blob/main/DataSheets/HC-SR04.PDF) x 2
-- [LM2596](https://github.com/juanma010901/Quadruped-Robot/blob/main/DataSheets/LM2596.pdf)
+- [LM2596](https://github.com/juanma010901/Quadruped-Robot/blob/main/DataSheets/LM2596.pdf) x2
 - [MG996R](https://github.com/juanma010901/Quadruped-Robot/blob/main/DataSheets/MG996R.pdf) x 8
 - [PCA9685](https://github.com/juanma010901/Quadruped-Robot/blob/main/DataSheets/PCA9685.PDF)
 - [LCD16x2](https://github.com/juanma010901/Quadruped-Robot/blob/main/DataSheets/LCD16x2.pdf)
 - [I2C Module](https://github.com/juanma010901/Quadruped-Robot/blob/main/DataSheets/I2C-1602-LCD.pdf)
-
+<!-- - [Arduino Nano]()  -->
 
 ## Contributors 💡 and Contact 📩
 | Juan Manuel Hincapié | Luis Alejandro Pépez | David Rozo Osorio | Universidad EIA |
