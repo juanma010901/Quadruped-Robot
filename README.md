@@ -36,9 +36,3 @@ A continuación se adjunta la [bitácora](https://docs.google.com/document/d/16b
 | <a href="https://github.com/juanma010901"><img src="https://avatars.githubusercontent.com/u/119358374?v=4" alt="Juan Manuel" width="100" /></a> |  <a href="https://github.com/luisfbcudj94"><img src="https://avatars.githubusercontent.com/u/74807862?v=4" alt="Luis Pérez" width="100" /></a> |<a href="david.rozo31@eia.edu.co"><img src="https://avatars.githubusercontent.com/u/88332307?v=4" alt="David Rozo" width="100" /></a>| <a href="https://www.linkedin.com/school/universidad-eia/?originalSubdomain=co"><img src="https://github.com/juanma010901/Quadruped-Robot/assets/119358374/9933f6a5-b5bf-4213-8e86-b27f9a4e7f45" alt="Universidad EIA" width="100" /></a>| 
 | <a href="https://www.linkedin.com/in/juan-manuel-hincapie/"><img src="https://img.shields.io/badge/LinkedIn_Profile-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn Profile" /></a> | <a href="https://co.linkedin.com/in/luis-alejandro-pérez-abril"><img src="https://img.shields.io/badge/LinkedIn_Profile-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn Profile" /></a> | <a href="https://co.linkedin.com/in/david-rozo-osorio-98b6aa226"><img src="https://img.shields.io/badge/LinkedIn_Profile-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn Profile" /></a> | <a href="https://www.linkedin.com/school/universidad-eia/?originalSubdomain=co"><img src="https://img.shields.io/badge/LinkedIn_Profile-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn Profile" /></a>
  
- 
-
-
-
-Emoji
-📖 🚀 🦾 🦿 🔧 🎯 🔨 ⚒ 🛠 ⛏ 🔌 💡 🔓 📌 📍 📩 
